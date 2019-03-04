@@ -91,4 +91,4 @@ ylabel(L"\langle \sigma^+\sigma^- \rangle")
 
 tight_layout()
 gcf()
-savefig("rk.svg")
+#savefig("rk.svg")
