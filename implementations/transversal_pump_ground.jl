@@ -5,7 +5,7 @@ xmin = -5
 xmax = 5
 Nsteps = 200
 m = 0.5
-U0 = 10
+U0 = -10
 k = 1
 
 b_position = PositionBasis(xmin, xmax, Nsteps)
