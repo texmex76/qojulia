@@ -1,5 +1,7 @@
 using QuantumOptics
 using PyPlot
+using PyCall
+anim = pyimport("matplotlib.animation")
 
 N_cutoff = 1
 
@@ -11,7 +13,7 @@ g0 = 10
 Δa = -1
 k = 1.4
 Δc = 10
-η = 1000
+η = 500
 
 # Bases
 b_position = PositionBasis(xmin, xmax, Nsteps)
@@ -70,9 +72,9 @@ host.set_ylim(-999.9979, 1199.9555)
 par1.set_ylim(-0.0011, 0.0231)
 par2.set_ylim(-0.0011, 0.0231)
 
-title("Longitudinal Pump with Operators")
+title("Transversal Pump with Operators")
 host.set_xlabel(L"x")
-host.set_ylabel(L"U_0\cos(kx)^2")
+host.set_ylabel(L"-\eta \cos(kx) - g_0 \Delta a \cos(kx)^2")
 par1.set_ylabel(L"|\psi(x)|^2")
 par2.set_ylabel(L"|\psi(x)|^2")
 
