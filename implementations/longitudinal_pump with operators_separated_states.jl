@@ -1,17 +1,17 @@
 using QuantumOptics
 using PyPlot
 
-N_cutoff = 1
+N_cutoff = 7
 
-xmin = -3
-xmax = 3
+xmin = -.5
+xmax = .5
 Nsteps = 200
 m = .5
 g0 = 10
 Δa = -1
-k = 1.4
-Δc = 10
-η = 6
+k = 2 * π
+Δc = -10
+η = 100
 
 # Bases
 b_position = PositionBasis(xmin, xmax, Nsteps)
@@ -24,10 +24,10 @@ p = momentum(b_position)
 a = destroy(b_fock) ⊗ one(b_position)
 ad = dagger(a)
 
-potential = x -> -g0^2/Δa*cos(k*x)^2
+potential = x -> g0^2/Δa*cos(k*x)^2
 H_int = (one(b_fock) ⊗ potentialoperator(b_position, potential))*ad*a
 H_kin = one(b_fock) ⊗ p^2/2m
-H_pump = -η*(a + ad)
+H_pump = η*(a + ad)
 H_atom = -Δc*ad*a
 H = H_kin + dense(H_int) + H_pump + H_atom
 
@@ -55,7 +55,7 @@ comb_states_2 = extract_pos(Nsteps, N_cutoff, combined_2[1])
 xpoints = samplepoints(b_position)
 pot = []
 for i in xpoints
-    push!(pot, -g0^2/Δa*cos(k*i)^2)
+    push!(pot, g0^2/Δa*cos(k*i)^2)
 end
 
 fig = figure()
@@ -65,7 +65,7 @@ par1 = host.twinx()
 par2 = host.twinx()
 
 host.set_xlim(xmin, xmax)
-host.set_ylim(-3, 103)
+# host.set_ylim(-3, 103)
 par1.set_ylim(-0.0005, 0.025)
 par2.set_ylim(-0.0005, 0.025)
 
