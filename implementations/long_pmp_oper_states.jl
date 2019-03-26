@@ -32,7 +32,7 @@ ad = dagger(a)
 
 potential = x -> U0*cos(k*x)^2
 H_int = (one(b_fock) ⊗ potentialoperator(b_position, potential))*ad*a
-H_kin = one(b_fock) ⊗ p^2 / k^2
+H_kin = (one(b_fock) ⊗ p^2) / k^2
 H_pump = η*(a + ad)
 H_atom = -Δc*ad*a
 H = H_kin + dense(H_int) + H_pump + H_atom
