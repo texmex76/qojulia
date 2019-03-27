@@ -2,19 +2,19 @@ using QuantumOptics
 using PyPlot
 using Printf
 using LinearAlgebra
-pygui(false)
+pygui(true)
 
-N_cutoff = 16
+N_cutoff = 64
 xmin = 0
 xmax = 1
 Nsteps = 32
 
 k = 2*π
-m = 250
+m = 100
 ωr = (k^2) / (2*m)
 
 Δc = -10 / ωr
-η = 100 / ωr
+η = 50 / ωr
 U0 = -1 / ωr
 
 # function evaluate(η)
@@ -52,20 +52,21 @@ host = fig.add_subplot(111)
 par1 = host.twinx()
 
 host.set_xlim(xmin, xmax)
-host.set_ylim(-0.001891, 0.039704)
-par1.set_ylim(-169.686218, 8.080296)
+host.set_ylim(-0.0001, 0.0017)
+par1.set_ylim(-299.233685, 14.249223)
 
-title("Longitudinal Pump with Operators")
+title(L"\eta = 50 \omega_r")
 host.set_xlabel(L"x")
 host.set_ylabel(L"|\psi(x)|^2")
 par1.set_ylabel(L"U_0\cos(kx)^2\langle a^\dagger a\rangle")
 
 
-host.plot(xpoints, abs2.(density), "C0")
+host.plot(xpoints, abs2.(density ./ sqrt(Nsteps)), "C0")
 par1.plot(xpoints, pot, "C1", linestyle="--")
 
 host.yaxis.label.set_color("C0")
 par1.yaxis.label.set_color("C1")
+tight_layout()
 
 gcf()
 

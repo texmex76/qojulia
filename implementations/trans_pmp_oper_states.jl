@@ -4,7 +4,7 @@ using Printf
 using LinearAlgebra
 pygui(false)
 
-N_cutoff = 16
+N_cutoff = 64
 xmin = 0
 xmax = 1
 Nsteps = 32
@@ -14,7 +14,7 @@ m = 10
 ωr = (k^2) / (2*m)
 
 Δc = -10 / ωr
-η = 100 / ωr
+η = 50 / ωr
 U0 = -1 / ωr
 #
 # function evaluate(η)
@@ -56,8 +56,8 @@ host = fig.add_subplot(111)
 par1 = host.twinx()
 
 host.set_xlim(xmin, xmax)
-# host.set_ylim(-0.0015, 0.0307)
-# par1.set_ylim(-8.368287, 0.450148)
+host.set_ylim(-0.0185, 0.3881)
+par1.set_ylim(-158.378319, 127.354017)
 
 title("Transversal Pump with Operators")
 host.set_xlabel(L"x")
@@ -75,7 +75,7 @@ gcf()
 
 # println("host.set_ylim(" *@sprintf("%.4f", host.get_ylim()[1]) *", " *@sprintf("%.4f", host.get_ylim()[2]) *")")
 # println("par1.set_ylim(" *@sprintf("%.6f", par1.get_ylim()[1]) *", " *@sprintf("%.6f", par1.get_ylim()[2]) *")")
-#### end visualize density
+# #### end visualize density
 
 # pot_exp = x -> cos(k*x)
 # cos_pot = one(b_fock) ⊗ potentialoperator(b_position, pot_exp)
