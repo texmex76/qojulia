@@ -16,13 +16,12 @@ m = 10
 
 κ = ωr
 Δc = -1 / ωr
-# η = 20 / ωr
+η = 30 / ωr
 U0 = -1 / ωr
 gc = 10*ωr*λ
-# gc = 1
 
-function evaluate(η)
-η = η / ωr
+# function evaluate(η)
+# η = η / ωr
 
 # Bases
 b_position = PositionBasis(xmin, xmax, Nsteps)
@@ -71,40 +70,55 @@ for i in [1:1:iterations;]
 end
 
 # #### begin visualize density
-# psis = @. ptrace(psis, 1)
-#
-# density = []
-# for i in [1:1:iterations + 1;]
-#     push!(density, diag(psis[i].data))
-# end
-#
-# norms = []
-# for i in [1:1:iterations + 1;]
-#     push!(norms, norm(density[i]))
-# end
-#
-# # clf()
-# # points = [1:1:301;]
-# # plot(points, norms)
-# # gcf()
-#
-# clf()
-# points = [1:1:Nsteps;]
-# plot(points, abs2.(density[iterations + 1]))
-# gcf()
-# #### end visualize density
+psis = @. ptrace(psis, 1)
 
-
-θ = abs(expect(H_cos, psis[iterations + 1]))
-return θ
+density = []
+for i in [1:1:iterations + 1;]
+    push!(density, diag(psis[i].data))
 end
 
-points = [0:1:15;]
-θ = @. evaluate(points)
-figure()
-clf()
-suptitle("Transversal Pump Order Parameter")
-xlabel(L"\eta")
-ylabel(L"\Theta = \langle \cos(kx) \rangle")
-plot(points, θ)
+xpoints = samplepoints(b_position)
+pot = @. U0*cos(k*xpoints)^2*abs2(alphas[iterations + 1]) + η*cos(k*xpoints)*2*real(alphas[iterations + 1])
+
+fig = figure()
+host = fig.add_subplot(111)
+par1 = host.twinx()
+
+host.set_xlim(xmin, xmax)
+host.set_ylim(-0.0013, 0.0278)
+par1.set_ylim(-883.033083, 548.013803)
+
+title("Transversal Pump Mean Field")
+host.set_xlabel(L"x")
+host.set_ylabel(L"|\psi(x)|^2")
+par1.set_ylabel(L"U_0\cos(kx)^2\langle a^\dagger a\rangle + \eta \cos(kx) \langle a + a^\dagger \rangle")
+
+
+host.plot(xpoints, abs2.(density[iterations + 1] ./ sqrt(Nsteps)), "C0")
+par1.plot(xpoints, pot, "C1", linestyle="--")
+
+host.yaxis.label.set_color("C0")
+par1.yaxis.label.set_color("C1")
+
 gcf()
+
+# println("host.set_ylim(" *@sprintf("%.4f", host.get_ylim()[1]) *", " *@sprintf("%.4f", host.get_ylim()[2]) *")")
+# println("par1.set_ylim(" *@sprintf("%.6f", par1.get_ylim()[1]) *", " *@sprintf("%.6f", par1.get_ylim()[2]) *")")
+
+### end visualize density
+
+# ## begin calculate order parameter
+# θ = abs(expect(H_cos, psis[iterations + 1]))
+# return θ
+# end
+#
+# points = [0:1:15;]
+# θ = @. evaluate(points)
+# figure()
+# clf()
+# suptitle("Transversal Pump Order Parameter")
+# xlabel(L"\eta")
+# ylabel(L"\Theta = \langle \cos(kx) \rangle")
+# plot(points, θ)
+# gcf()
+# ## end calculate order parameter

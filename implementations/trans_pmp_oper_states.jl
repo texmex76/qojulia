@@ -56,7 +56,7 @@ host = fig.add_subplot(111)
 par1 = host.twinx()
 
 host.set_xlim(xmin, xmax)
-host.set_ylim(-0.0185, 0.3881)
+host.set_ylim(-0.0006, 0.0121)
 par1.set_ylim(-158.378319, 127.354017)
 
 title("Transversal Pump with Operators")
@@ -65,7 +65,7 @@ host.set_ylabel(L"|\psi(x)|^2")
 par1.set_ylabel(L"U_0\cos(kx)^2\langle a^\dagger a\rangle + \eta \cos(kx) \langle a + a^\dagger \rangle")
 
 
-host.plot(xpoints, abs2.(density), "C0")
+host.plot(xpoints, abs2.(density ./ sqrt(Nsteps)), "C0")
 par1.plot(xpoints, pot, "C1", linestyle="--")
 
 host.yaxis.label.set_color("C0")

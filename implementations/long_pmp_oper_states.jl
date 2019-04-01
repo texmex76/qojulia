@@ -2,7 +2,7 @@ using QuantumOptics
 using PyPlot
 using Printf
 using LinearAlgebra
-pygui(true)
+pygui(false)
 
 N_cutoff = 64
 xmin = 0
