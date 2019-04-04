@@ -4,18 +4,17 @@ using Printf
 using LinearAlgebra
 pygui(false)
 
-N_cutoff = 64
+N_cutoff = 16
 xmin = 0
 xmax = 1
 Nsteps = 32
 
 k = 2*π
-m = 10
-ωr = (k^2) / (2*m)
+ωr = 1
 
-Δc = -10 / ωr
-η = 50 / ωr
-U0 = -1 / ωr
+Δc = -10 * ωr
+η = 50 * ωr
+U0 = -1 * ωr
 #
 # function evaluate(η)
 # η = η / ωr
@@ -33,7 +32,7 @@ ad = dagger(a)
 
 potential = x -> U0*cos(k*x)^2
 H_int = (one(b_fock) ⊗ potentialoperator(b_position, potential))*ad*a
-H_kin = (one(b_fock) ⊗ p^2/2m) / k^2
+H_kin = (one(b_fock) ⊗ p^2) / k^2
 pump = x -> η*cos(k*x)
 H_pump = (one(b_fock) ⊗ potentialoperator(b_position, pump)) * (a + ad)
 H_atom = -Δc*ad*a
